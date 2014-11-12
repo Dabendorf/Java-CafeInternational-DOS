@@ -22,13 +22,15 @@ import javax.swing.JScrollPane;
 import javax.swing.WindowConstants;
 
 /**
-  * @version 1.5.1 Spielstart & Kartenmischen, Namensabfrage, Windoof-Veraltungsabfrage sowie Spielstandsabspeicherung und Neustartfunktion
-  * Neuerungen: Auslagerung in Startmethoden "Spielstart" und effektivierer Reader eingebaut
+  * @version 1.5.2 Spielstart & Kartenmischen, Namensabfrage, Windoof-Veraltungsabfrage sowie Spielstandsabspeicherung und Neustartfunktion
+  * Neuerungen:
+  * 1.5.1: Auslagerung in Startmethoden "Spielstart" und effektivierer Reader eingebaut
+  * 1.5.2: Hinzufügen einer jList für die Länderkarten
   * @author Lukas Schramm
   */
 
 public class CafeRoot extends JFrame {
-	
+  
   //private Spielstart start; 
 
   protected static final long serialVersionUID = 2463407896592093246L;
@@ -61,6 +63,9 @@ public class CafeRoot extends JFrame {
   protected static boolean spielernamenkorrekt = false;
   protected static boolean neuesspielbutton = false;
   protected JButton jButtonNeustart = new JButton();
+  private JList jListLaenderkarten = new JList();
+  private DefaultListModel jListLaenderkartenModel = new DefaultListModel();
+  private JScrollPane jListLaenderkartenScrollPane = new JScrollPane(jListLaenderkarten);
   // Ende Attribute
   
   public CafeRoot(String title) throws IOException {
