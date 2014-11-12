@@ -27,6 +27,7 @@ import javax.swing.WindowConstants;
   * 1.5.1: Auslagerung in Startmethoden "Spielstart" und effektivierer Reader eingebaut
   * 1.5.2: Hinzufügen einer jList für die Länderkarten
   * 1.5.3: Umfangreiche Neugenerierung der Länder-Tisch-Karten und Abbildung in einer jList
+  * 1.5.4: Abspeichern der Länderkarten
   * @author Lukas Schramm
   */
 
@@ -134,11 +135,11 @@ public class CafeRoot extends JFrame {
         System.out.println("Ein veraltetes System \"Windows\" wurde entdeckt");
         }
     if(spielangefangen == 0) {
-    	/*do{
+    	do{
     		Spielstart.namensfrage();
     	}while(spielernamenkorrekt == false);
     	System.out.println("Spieler 1 heißt: "+spielername1);
-        System.out.println("Spieler 2 heißt: "+spielername2);*/
+        System.out.println("Spieler 2 heißt: "+spielername2);
         Spielstart.neuesspiel();
         Spielstart.gastkartenmischen();
         Spielstart.laenderkartenmischen();
@@ -235,6 +236,9 @@ public class CafeRoot extends JFrame {
         spielstand.setProperty("spieler",spieler + "");
         for (int n=0;n<restkartengast; n++) {
             spielstand.setProperty("gastkarten" + n, gastkarten.get(n) + "");
+        }
+        for (int q=0;q<restkartentisch;q++) {
+        	spielstand.setProperty("laenderkarten" + q, laenderkarten.get(q) + "");
         }
         spielstand.store(new FileWriter("spielstand.txt"),"Gespeichertes Spiel");
         System.out.println("Das Spiel wurde beendet und der Spielstand abgespeichert");

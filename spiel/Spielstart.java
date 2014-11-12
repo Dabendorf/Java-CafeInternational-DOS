@@ -99,7 +99,7 @@ public class Spielstart extends CafeRoot{
 	      }
 	      gastkarten.clear();
 	      jListGastkartenModel.clear();
-	      for (int n=0;n<restkartengast;n++) {
+	      for(int n=0;n<restkartengast;n++) {
 	          String gastkartewiederhergestellt = spielstand.getProperty("gastkarten" + n);
 	          String[] einzelkarte = gastkartewiederhergestellt.split(":");
 	          Geschlecht geschlecht = Geschlecht.valueOf(einzelkarte[1]);
@@ -107,8 +107,15 @@ public class Spielstart extends CafeRoot{
 	          gastkarten.add(new Gastkarte(geschlecht, land));
 	          jListGastkartenModel.addElement(gastkarten.get(n));
 	      }
+	      for(int q=0;q<restkartentisch;q++){
+	    	  String laenderkartewiederhergestellt = spielstand.getProperty("laenderkarten" + q);
+	    	  Land land = Land.valueOf(laenderkartewiederhergestellt);
+	    	  laenderkarten.add(new Laenderkarte(land));
+	    	  jListLaenderkartenModel.addElement(laenderkarten.get(q));
+	      }
 	      System.out.println("Ein altes Spiel wurde wiederhergestellt");
-	      System.out.println(gastkarten);
+	      System.out.println("Gastkarten: "+gastkarten);
+	      System.out.println("Tischkarten: "+laenderkarten);
 	  }
 	 public static void namensfrage() throws IOException {
 		  JTextField spielername01 = new JTextField(new MaxSizeDocument(12), "", 0);
