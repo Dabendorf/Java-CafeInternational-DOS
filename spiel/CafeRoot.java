@@ -26,6 +26,7 @@ import javax.swing.WindowConstants;
   * Neuerungen:
   * 1.5.1: Auslagerung in Startmethoden "Spielstart" und effektivierer Reader eingebaut
   * 1.5.2: Hinzufügen einer jList für die Länderkarten
+  * 1.5.3: Umfangreiche Neugenerierung der Länder-Tisch-Karten und Abbildung in einer jList
   * @author Lukas Schramm
   */
 
@@ -49,6 +50,7 @@ public class CafeRoot extends JFrame {
   protected static String spielername1 = "Spieler 1";
   protected static String spielername2 = "Spieler 2";
   protected static List<Gastkarte> gastkarten = new ArrayList<Gastkarte>();
+  protected static List<Laenderkarte> laenderkarten = new ArrayList<Laenderkarte>();
   protected JList<Gastkarte> jListGastkarten = new JList<Gastkarte>();
   protected static DefaultListModel<Gastkarte> jListGastkartenModel = new DefaultListModel<Gastkarte>();
   protected JScrollPane jListGastkartenScrollPane= new JScrollPane(jListGastkarten);
@@ -63,9 +65,9 @@ public class CafeRoot extends JFrame {
   protected static boolean spielernamenkorrekt = false;
   protected static boolean neuesspielbutton = false;
   protected JButton jButtonNeustart = new JButton();
-  private JList jListLaenderkarten = new JList();
-  private DefaultListModel jListLaenderkartenModel = new DefaultListModel();
-  private JScrollPane jListLaenderkartenScrollPane = new JScrollPane(jListLaenderkarten);
+  protected JList<Laenderkarte> jListLaenderkarten = new JList<Laenderkarte>();
+  protected static DefaultListModel<Laenderkarte> jListLaenderkartenModel = new DefaultListModel<Laenderkarte>();
+  protected JScrollPane jListLaenderkartenScrollPane = new JScrollPane(jListLaenderkarten);
   // Ende Attribute
   
   public CafeRoot(String title) throws IOException {
@@ -108,6 +110,9 @@ public class CafeRoot extends JFrame {
     jListGastkarten.setModel(jListGastkartenModel);
     jListGastkartenScrollPane.setBounds(25, 210, 300, 100);
     cp.add(jListGastkartenScrollPane);
+    jListLaenderkarten.setModel(jListLaenderkartenModel);
+    jListLaenderkartenScrollPane.setBounds(323, 60, 100, 100);
+    cp.add(jListLaenderkartenScrollPane);
     jButtonNeustart.setBounds(320, 16, 105, 41);
     jButtonNeustart.setText("Nouveau!");
     jButtonNeustart.setMargin(new Insets(2, 2, 2, 2));
@@ -129,13 +134,14 @@ public class CafeRoot extends JFrame {
         System.out.println("Ein veraltetes System \"Windows\" wurde entdeckt");
         }
     if(spielangefangen == 0) {
-    	do{
+    	/*do{
     		Spielstart.namensfrage();
     	}while(spielernamenkorrekt == false);
     	System.out.println("Spieler 1 heißt: "+spielername1);
-        System.out.println("Spieler 2 heißt: "+spielername2);
+        System.out.println("Spieler 2 heißt: "+spielername2);*/
         Spielstart.neuesspiel();
         Spielstart.gastkartenmischen();
+        Spielstart.laenderkartenmischen();
     }
     else{
     	Spielstart.spielstand();
@@ -168,10 +174,13 @@ public class CafeRoot extends JFrame {
       if(neustart == 0) {
     	  gastkarten.clear();
     	  jListGastkartenModel.clear();
+    	  laenderkarten.clear();
+    	  jListLaenderkartenModel.clear();
     	  neuesspielbutton = true;
     	  Spielstart.neuesspiel();
     	  neuesspielbutton = false;
     	  Spielstart.gastkartenmischen();
+    	  Spielstart.laenderkartenmischen();
       }
   }
  

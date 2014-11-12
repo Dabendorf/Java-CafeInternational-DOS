@@ -165,12 +165,33 @@ public class Spielstart extends CafeRoot{
 		    }*/
 		    jLabelRestkartenGast.setText("Restgäste: "+restkartengast);
 		    Collections.shuffle(gastkarten);
+		    Collections.shuffle(gastkarten);
+		    Collections.shuffle(gastkarten);
 		    for(int n=0;n<gastkarten.size();n++){
 		    	jListGastkartenModel.addElement(gastkarten.get(n));
 		    }
 		    System.out.println("Die Gastkarten wurden gemischt");
 		    System.out.println(gastkarten);
 	  }
+	 public static void laenderkartenmischen() {
+		 for(int n=0;n<2;n++) {
+			 for(Land land : Land.values()) {
+				 if (land != Land.Joker) {
+				 laenderkarten.add(new Laenderkarte(land));
+				 restkartentisch += 1;
+				 }
+			 }
+		 }
+		 jLabelRestkartenTisch.setText("Resttische: "+restkartentisch);
+		 Collections.shuffle(laenderkarten);
+		 Collections.shuffle(laenderkarten);
+		 Collections.shuffle(laenderkarten);
+		 for(int p=0;p<restkartentisch;p++) {
+			 jListLaenderkartenModel.addElement(laenderkarten.get(p));
+		 }
+		 System.out.println("Die Tischkarten wurden gemischt");
+		 System.out.println(laenderkarten);
+	 }
 	 
 	 public static Properties loadProperties(String filename) throws IOException{
 	        Reader reader = new BufferedReader(new FileReader(filename));
