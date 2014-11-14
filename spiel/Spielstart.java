@@ -9,6 +9,7 @@ import java.io.Reader;
 import java.util.Collections;
 import java.util.Properties;
 
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
@@ -199,7 +200,81 @@ public class Spielstart extends CafeRoot{
 		 System.out.println("Die Tischkarten wurden gemischt");
 		 System.out.println(laenderkarten);
 	 }
-	 
+	 public static void neustart() throws IOException {
+		 final JFrame Neustart = new JFrame("Ein Frame zum Schließen");
+	      Neustart.setTitle("Spiel neustarten");
+	      Object[] options = {"Neustarten", "Abbrechen"};
+	      int neustart = JOptionPane.showOptionDialog(null,
+	      "Möchtest Du das Spiel wirklich neustarten?\nDein Spielstand wird verloren gehen!",
+	      "Café International neustarten?",
+	      JOptionPane.DEFAULT_OPTION, 
+	      JOptionPane.QUESTION_MESSAGE, 
+	      null, options, options[0]);
+	      if(neustart == 0) {
+	    	  gastkarten.clear();
+	    	  jListGastkartenModel.clear();
+	    	  laenderkarten.clear();
+	    	  jListLaenderkartenModel.clear();
+	    	  neuesspielbutton = true;
+	    	  Spielstart.neuesspiel();
+	    	  neuesspielbutton = false;
+	    	  Spielstart.gastkartenmischen();
+	    	  Spielstart.laenderkartenmischen();
+	      }
+	 }
+	 public static void beenden() throws IOException {
+		  final JFrame Beenden = new JFrame("Ein Frame zum Schließen");
+		  Properties spielstand = loadProperties("spielstand.txt");
+	      Beenden.setTitle("Spiel beenden");
+	      Object[] options = {"Speichern", "Beenden", "Abbrechen"};
+	      int beenden = JOptionPane.showOptionDialog(null,
+	      "Möchtest Du das Spiel wirklich beenden?\nDein Spielstand wird verloren gehen!",
+	      "Café International beenden?",
+	      JOptionPane.DEFAULT_OPTION, 
+	      JOptionPane.QUESTION_MESSAGE, 
+	      null, options, options[0]);
+	      if(beenden == 0)
+	      {
+	      try {
+	        spielangefangen = 1;
+	        spielstand.setProperty("spielangefangen",spielangefangen + "");
+	        spielstand.setProperty("restkartentisch",restkartentisch + "");
+	        spielstand.setProperty("restkartengast",restkartengast + "");
+	        spielstand.setProperty("restbarplaetze",restbarplaetze + "");
+	        spielstand.setProperty("handkartenspieler1",handkartenspieler1 + "");
+	        spielstand.setProperty("handkartenspieler2",handkartenspieler2 + "");
+	        spielstand.setProperty("punktespieler1",punktespieler1 + "");
+	        spielstand.setProperty("punktespieler2",punktespieler2 + "");
+	        spielstand.setProperty("spielername1",spielername1);
+	        spielstand.setProperty("spielername2",spielername2);
+	        spielstand.setProperty("spieler",spieler + "");
+	        for (int n=0;n<restkartengast; n++) {
+	            spielstand.setProperty("gastkarten" + n, gastkarten.get(n) + "");
+	        }
+	        for (int q=0;q<restkartentisch;q++) {
+	        	spielstand.setProperty("laenderkarten" + q, laenderkarten.get(q) + "");
+	        }
+	        spielstand.store(new FileWriter("spielstand.txt"),"Gespeichertes Spiel");
+	        System.out.println("Das Spiel wurde beendet und der Spielstand abgespeichert");
+	    } catch (IOException e) {
+	      e.printStackTrace();
+	    }
+	        System.exit(0);
+	      }
+	      else{
+	        if(beenden == 1) {
+	        	try {
+	        		spielangefangen = 0;
+	        		spielstand.setProperty("spielangefangen",spielangefangen + "");
+					spielstand.store(new FileWriter("spielstand.txt"),"Keine Speicherdatei");
+					System.out.println("Das Spiel wurde beendet, aber kein Spielstand gespeichert");
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+	          System.exit(0);
+	        }
+	      }
+	 }
 	 public static Properties loadProperties(String filename) throws IOException{
 	        Reader reader = new BufferedReader(new FileReader(filename));
 	           Properties prop = new Properties();

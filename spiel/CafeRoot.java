@@ -8,7 +8,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 
@@ -19,15 +18,17 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
 /**
-  * @version 1.5.2 Spielstart & Kartenmischen, Namensabfrage, Windoof-Veraltungsabfrage sowie Spielstandsabspeicherung und Neustartfunktion
+  * @version 1.5.5 Spielstart & Kartenmischen, Namensabfrage, Windoof-Veraltungsabfrage sowie Spielstandsabspeicherung und Neustartfunktion
   * Neuerungen:
   * 1.5.1: Auslagerung in Startmethoden "Spielstart" und effektivierer Reader eingebaut
   * 1.5.2: Hinzufügen einer jList für die Länderkarten
   * 1.5.3: Umfangreiche Neugenerierung der Länder-Tisch-Karten und Abbildung in einer jList
   * 1.5.4: Abspeichern der Länderkarten
+  * 1.5.5: DOS-Befehlszeile eingeführt und Neustart- sowie Schließen-Methode ausgelagert
   * @author Lukas Schramm
   */
 
@@ -69,6 +70,8 @@ public class CafeRoot extends JFrame {
   protected JList<Laenderkarte> jListLaenderkarten = new JList<Laenderkarte>();
   protected static DefaultListModel<Laenderkarte> jListLaenderkartenModel = new DefaultListModel<Laenderkarte>();
   protected JScrollPane jListLaenderkartenScrollPane = new JScrollPane(jListLaenderkarten);
+  protected static JTextField jTextFieldDosEingabe = new JTextField();
+  protected static String doseingabe = "";
   // Ende Attribute
   
   public CafeRoot(String title) throws IOException {
@@ -127,6 +130,16 @@ public class CafeRoot extends JFrame {
       }
     });
     cp.add(jButtonNeustart);
+    jTextFieldDosEingabe.setBounds(25, 328, 456, 25);
+    cp.add(jTextFieldDosEingabe);
+    jTextFieldDosEingabe.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent e){
+        	try {
+				Spielverlauf.doseingabefenster();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+    }});
     //=============================
     String string_spielangefangen = spielstand.getProperty("spielangefangen", "0");
     int spielangefangen = Integer.parseInt(string_spielangefangen);
@@ -163,26 +176,7 @@ public class CafeRoot extends JFrame {
   // Anfang Methoden
   
   public void jButtonNeustart_ActionPerformed(ActionEvent evt) throws IOException {
-	  final JFrame Neustart = new JFrame("Ein Frame zum Schließen");
-      Neustart.setTitle("Spiel neustarten");
-      Object[] options = {"Neustarten", "Abbrechen"};
-      int neustart = JOptionPane.showOptionDialog(null,
-      "Möchtest Du das Spiel wirklich neustarten?\nDein Spielstand wird verloren gehen!",
-      "Café International neustarten?",
-      JOptionPane.DEFAULT_OPTION, 
-      JOptionPane.QUESTION_MESSAGE, 
-      null, options, options[0]);
-      if(neustart == 0) {
-    	  gastkarten.clear();
-    	  jListGastkartenModel.clear();
-    	  laenderkarten.clear();
-    	  jListLaenderkartenModel.clear();
-    	  neuesspielbutton = true;
-    	  Spielstart.neuesspiel();
-    	  neuesspielbutton = false;
-    	  Spielstart.gastkartenmischen();
-    	  Spielstart.laenderkartenmischen();
-      }
+	  Spielstart.neustart();
   }
  
   // Ende Methoden
@@ -191,12 +185,10 @@ public class CafeRoot extends JFrame {
     new CafeRoot("CafeRoot");
   } // end of main 
   public class MyWindowListener implements WindowListener {
-    private Properties spielstand;
     private CafeRoot cRoot;
     
     public MyWindowListener(CafeRoot cRoot,Properties spielstand) {
       this.cRoot = cRoot;
-      this.spielstand = spielstand;
     }
     
     @Override
@@ -208,57 +200,11 @@ public class CafeRoot extends JFrame {
     }
     
     @Override
-    public void windowClosing(WindowEvent evt)
-    {
-      final JFrame Beenden = new JFrame("Ein Frame zum Schließen");
-      Beenden.setTitle("Spiel beenden");
-      Object[] options = {"Speichern", "Beenden", "Abbrechen"};
-      int beenden = JOptionPane.showOptionDialog(null,
-      "Möchtest Du das Spiel wirklich beenden?\nDein Spielstand wird verloren gehen!",
-      "Café International beenden?",
-      JOptionPane.DEFAULT_OPTION, 
-      JOptionPane.QUESTION_MESSAGE, 
-      null, options, options[0]);
-      if(beenden == 0)
-      {
+    public void windowClosing(WindowEvent evt) {
       try {
-        spielangefangen = 1;
-        spielstand.setProperty("spielangefangen",spielangefangen + "");
-        spielstand.setProperty("restkartentisch",restkartentisch + "");
-        spielstand.setProperty("restkartengast",restkartengast + "");
-        spielstand.setProperty("restbarplaetze",restbarplaetze + "");
-        spielstand.setProperty("handkartenspieler1",handkartenspieler1 + "");
-        spielstand.setProperty("handkartenspieler2",handkartenspieler2 + "");
-        spielstand.setProperty("punktespieler1",punktespieler1 + "");
-        spielstand.setProperty("punktespieler2",punktespieler2 + "");
-        spielstand.setProperty("spielername1",spielername1);
-        spielstand.setProperty("spielername2",spielername2);
-        spielstand.setProperty("spieler",spieler + "");
-        for (int n=0;n<restkartengast; n++) {
-            spielstand.setProperty("gastkarten" + n, gastkarten.get(n) + "");
-        }
-        for (int q=0;q<restkartentisch;q++) {
-        	spielstand.setProperty("laenderkarten" + q, laenderkarten.get(q) + "");
-        }
-        spielstand.store(new FileWriter("spielstand.txt"),"Gespeichertes Spiel");
-        System.out.println("Das Spiel wurde beendet und der Spielstand abgespeichert");
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-        System.exit(0);
-      }
-      else{
-        if(beenden == 1) {
-        	try {
-        		spielangefangen = 0;
-        		spielstand.setProperty("spielangefangen",spielangefangen + "");
-				spielstand.store(new FileWriter("spielstand.txt"),"Keine Speicherdatei");
-				System.out.println("Das Spiel wurde beendet, aber kein Spielstand gespeichert");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-          System.exit(0);
-        }
+		Spielstart.beenden();
+      } catch (IOException e) {
+		e.printStackTrace();
       }
     }
     
