@@ -30,8 +30,6 @@ import javax.swing.WindowConstants;
 
 public class CafeRoot extends JFrame {
   
-  //private Spielstart start; 
-
   protected static final long serialVersionUID = 2463407896592093246L;
   // Anfang Attribute
   protected static String spielname = "Café International";
