@@ -2,8 +2,10 @@ package spiel;
 
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.IOException;
@@ -20,13 +22,15 @@ import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
 /**
- * @version 1.6
- * Neuerungen in 1.6:
- * Neu erstellte Klassen: DosEingabe, Komponenten, Punkte, Spielende
- * Komponenten aus Übersichtlichkeit in Einzelklasse ausgelagert, Punkteberechnung hinzugefügt, DOS-Eingabe filtert einzelne Ereignisse heraus
- * Spielendszenarium Barplätze erstellt, Variablen Männlich und Türke umlautfrei gemacht, viele kleine Fehlerkorrekturen
- * @author Lukas Schramm
- */
+  * @version 1.5.5 Spielstart & Kartenmischen, Namensabfrage, Windoof-Veraltungsabfrage sowie Spielstandsabspeicherung und Neustartfunktion
+  * Neuerungen:
+  * 1.5.1: Auslagerung in Startmethoden "Spielstart" und effektivierer Reader eingebaut
+  * 1.5.2: Hinzufügen einer jList für die Länderkarten
+  * 1.5.3: Umfangreiche Neugenerierung der Länder-Tisch-Karten und Abbildung in einer jList
+  * 1.5.4: Abspeichern der Länderkarten
+  * 1.5.5: DOS-Befehlszeile eingeführt und Neustart- sowie Schließen-Methode ausgelagert
+  * @author Lukas Schramm
+  */
 
 public class CafeRoot extends JFrame {
   
@@ -49,9 +53,9 @@ public class CafeRoot extends JFrame {
   protected static String spielername2 = "Spieler 2";
   protected static List<Gastkarte> gastkarten = new ArrayList<Gastkarte>();
   protected static List<Laenderkarte> laenderkarten = new ArrayList<Laenderkarte>();
-  protected static JList<Gastkarte> jListGastkarten = new JList<Gastkarte>();
+  protected JList<Gastkarte> jListGastkarten = new JList<Gastkarte>();
   protected static DefaultListModel<Gastkarte> jListGastkartenModel = new DefaultListModel<Gastkarte>();
-  protected static JScrollPane jListGastkartenScrollPane= new JScrollPane(jListGastkarten);
+  protected JScrollPane jListGastkartenScrollPane= new JScrollPane(jListGastkarten);
   protected static JLabel jLabelRestkartenTisch = new JLabel();
   protected static JLabel jLabelRestkartenGast = new JLabel();
   protected static JLabel jLabelRestbarplaetze = new JLabel();
@@ -60,22 +64,14 @@ public class CafeRoot extends JFrame {
   protected static JLabel jLabelPunkteSpieler1 = new JLabel();
   protected static JLabel jLabelPunkteSpieler2 = new JLabel();
   protected static JLabel jLabelSpieler = new JLabel();
-  protected static JLabel jLabelMeldung = new JLabel();
   protected static boolean spielernamenkorrekt = false;
   protected static boolean neuesspielbutton = false;
-  protected static JButton jButtonNeustart = new JButton();
-  protected static JList<Laenderkarte> jListLaenderkarten = new JList<Laenderkarte>();
+  protected JButton jButtonNeustart = new JButton();
+  protected JList<Laenderkarte> jListLaenderkarten = new JList<Laenderkarte>();
   protected static DefaultListModel<Laenderkarte> jListLaenderkartenModel = new DefaultListModel<Laenderkarte>();
-  protected static JScrollPane jListLaenderkartenScrollPane = new JScrollPane(jListLaenderkarten);
-  protected static JList<Gastkarte> jListBarkarten = new JList<Gastkarte>();
-  protected static DefaultListModel<Gastkarte> jListBarkartenModel = new DefaultListModel<Gastkarte>();
-  protected static JScrollPane jListBarkartenScrollPane= new JScrollPane(jListBarkarten);
+  protected JScrollPane jListLaenderkartenScrollPane = new JScrollPane(jListLaenderkarten);
   protected static JTextField jTextFieldDosEingabe = new JTextField();
   protected static String doseingabe = "";
-  protected static boolean doseingabeerfolgt = false;
-  protected static ArrayList<String> doseingabepart = new ArrayList<String>();
-  protected static int barkartennummer = 0;
-  protected static String information = "";
   // Ende Attribute
   
   public CafeRoot(String title) throws IOException {
@@ -84,8 +80,8 @@ public class CafeRoot extends JFrame {
     setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     //Properties neuesspiel = Spielstart.loadProperties("neuesspiel.txt");
     Properties spielstand = Spielstart.loadProperties("spielstand.txt");
-    int frameWidth = 600;//506 
-    int frameHeight = 600;//434
+    int frameWidth = 506; 
+    int frameHeight = 434;
     setSize(frameWidth, frameHeight);
     Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
     int x = (d.width - getSize().width) / 2;
@@ -99,7 +95,51 @@ public class CafeRoot extends JFrame {
     cp.setLayout(null);
     
     // Anfang Komponenten
-    Komponenten.komponenten(cp);
+    jLabelRestkartenTisch.setBounds(25, 10, 100, 30);
+    cp.add(jLabelRestkartenTisch);
+    jLabelRestkartenGast.setBounds(25, 35, 100, 30);
+    cp.add(jLabelRestkartenGast);
+    jLabelRestbarplaetze.setBounds(25, 60, 120, 30);
+    cp.add(jLabelRestbarplaetze);
+    jLabelHandkartenSpieler1.setBounds(25, 85, 140, 30);
+    cp.add(jLabelHandkartenSpieler1);
+    jLabelHandkartenSpieler2.setBounds(25, 110, 140, 30);
+    cp.add(jLabelHandkartenSpieler2);
+    jLabelPunkteSpieler1.setBounds(25, 135, 140, 30);
+    cp.add(jLabelPunkteSpieler1);
+    jLabelPunkteSpieler2.setBounds(25, 160, 140, 30);
+    cp.add(jLabelPunkteSpieler2);
+    jLabelSpieler.setBounds(25, 185, 140, 30);
+    cp.add(jLabelSpieler);
+    jListGastkarten.setModel(jListGastkartenModel);
+    jListGastkartenScrollPane.setBounds(25, 210, 300, 100);
+    cp.add(jListGastkartenScrollPane);
+    jListLaenderkarten.setModel(jListLaenderkartenModel);
+    jListLaenderkartenScrollPane.setBounds(323, 60, 100, 100);
+    cp.add(jListLaenderkartenScrollPane);
+    jButtonNeustart.setBounds(320, 16, 105, 41);
+    jButtonNeustart.setText("Nouveau!");
+    jButtonNeustart.setMargin(new Insets(2, 2, 2, 2));
+    jButtonNeustart.addActionListener(new ActionListener() { 
+      public void actionPerformed(ActionEvent evt) { 
+        try {
+			jButtonNeustart_ActionPerformed(evt);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+      }
+    });
+    cp.add(jButtonNeustart);
+    jTextFieldDosEingabe.setBounds(25, 328, 456, 25);
+    cp.add(jTextFieldDosEingabe);
+    jTextFieldDosEingabe.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent e){
+        	try {
+				Spielverlauf.doseingabefenster();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+    }});
     //=============================
     String string_spielangefangen = spielstand.getProperty("spielangefangen", "0");
     int spielangefangen = Integer.parseInt(string_spielangefangen);
@@ -120,12 +160,6 @@ public class CafeRoot extends JFrame {
     else{
     	Spielstart.spielstand();
     }
-    /*if(restkartentisch > -1 && restkartengast > 0 && restbarplaetze > 0) {
-    	System.out.println("Das Spiel ist beendet!");
-    }
-    do{
-    	//
-    }while(restkartentisch > -1 && restkartengast > 0 && restbarplaetze > 0);*/
     
     
     // Ende Komponenten
@@ -134,14 +168,14 @@ public class CafeRoot extends JFrame {
     addWindowListener(new MyWindowListener(this, spielstand));
     //=============================
     
-    /*Random wuerfel1 = new Random(); //Würfeltest
+    Random wuerfel1 = new Random(); //Würfeltest
     int wuerfel = wuerfel1.nextInt(49)+1; //Würfeltest
-    System.out.println(wuerfel);*/
+    System.out.println(wuerfel);
   }
   
   // Anfang Methoden
   
-  public static void jButtonNeustart_ActionPerformed(ActionEvent evt) throws IOException {
+  public void jButtonNeustart_ActionPerformed(ActionEvent evt) throws IOException {
 	  Spielstart.neustart();
   }
  

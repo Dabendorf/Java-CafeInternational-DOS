@@ -9,6 +9,16 @@ public class Spielverlauf extends CafeRoot{
 		super(spielname);
 	}
 	
-	//Der Spielverlauf ist noch nicht definiert
+	public static void doseingabefenster() throws IOException {
+		doseingabe = jTextFieldDosEingabe.getText();
+		switch(doseingabe.toLowerCase()) {
+		case "neustart":
+			Spielstart.neustart();
+			break;
+		case "beenden":
+			Spielstart.beenden();
+		default:
+		}
+	}
 
 }

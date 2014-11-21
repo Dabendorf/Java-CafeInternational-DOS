@@ -173,6 +173,8 @@ public class Spielstart extends CafeRoot{
 		    }*/
 		    jLabelRestkartenGast.setText("Restgäste: "+restkartengast);
 		    Collections.shuffle(gastkarten);
+		    Collections.shuffle(gastkarten);
+		    Collections.shuffle(gastkarten);
 		    for(int n=0;n<gastkarten.size();n++){
 		    	jListGastkartenModel.addElement(gastkarten.get(n));
 		    }
@@ -189,6 +191,8 @@ public class Spielstart extends CafeRoot{
 			 }
 		 }
 		 jLabelRestkartenTisch.setText("Resttische: "+restkartentisch);
+		 Collections.shuffle(laenderkarten);
+		 Collections.shuffle(laenderkarten);
 		 Collections.shuffle(laenderkarten);
 		 for(int p=0;p<restkartentisch;p++) {
 			 jListLaenderkartenModel.addElement(laenderkarten.get(p));
