@@ -3,8 +3,7 @@ package spiel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.util.Arrays;
-
+import java.util.*;
 import javax.swing.Timer;
 
 public class DosEingabe extends CafeRoot{
@@ -34,22 +33,22 @@ public class DosEingabe extends CafeRoot{
 			Spielstart.beenden();
 			break;
 		case "gastkartebar":
-			information = doseingabepart.get(1);
 			try{
+				information = doseingabepart.get(1);
 				barkartennummer = Integer.parseInt(information);
 			}
 			catch(NumberFormatException e){
-				e.printStackTrace();
 				eingabeinkorrekt(5000); return;
 			}
 			catch(IndexOutOfBoundsException f){
-				f.printStackTrace();
 				eingabeinkorrekt(5000); return;
 			}
-			Punkte.barkarten();
+			if(!(barkartennummer > 5 || barkartennummer < 1)) {
+				Punkte.barkarten();
+			}else{
+				eingabeinkorrekt(5000); return;
+			}
 			break;
-			//Wichtige Anmerkung: Er fügt lediglich die Elementnummer von 0 bis 99 hinzu.
-			//In Zukunft müssten dies jedoch die Karten 0 bis 4 des Spielers sein!
 		default: doseingabeerfolgt = false;
 		}
 		if(doseingabeerfolgt == true) {

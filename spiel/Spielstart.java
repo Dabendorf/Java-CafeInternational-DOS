@@ -61,7 +61,7 @@ public class Spielstart extends CafeRoot{
 	      else{
 	      	jLabelSpieler.setText("Am Zug: "+spielername2);
 	      }
-	      System.out.println("Neues Spiel gestartet");
+	      System.out.println("("+ausgabenummer+") "+"Neues Spiel gestartet"); ausgabenummer += 1;
 		return neuesspiel;
 	  }
 	 public static void spielstand() throws IOException{
@@ -69,6 +69,8 @@ public class Spielstart extends CafeRoot{
 		  JOptionPane.showMessageDialog(null, "Ein Zwischengespeichertes Spiel wird wiederhergestellt!", "Weiterspielen", JOptionPane.INFORMATION_MESSAGE);
 	      String spielername1 = spielstand.getProperty("spielername1", "Nicht vorhanden");
 	      String spielername2 = spielstand.getProperty("spielername2", "Nicht vorhanden");
+	      String string_ausgabenummer = spielstand.getProperty("ausgabenummer", "0");
+	      ausgabenummer = Integer.parseInt(string_ausgabenummer);
 	  	  String string_restkartentisch = spielstand.getProperty("restkartentisch", "0");
 	      restkartentisch = Integer.parseInt(string_restkartentisch);
 	      jLabelRestkartenTisch.setText("Resttische: "+restkartentisch);
@@ -114,9 +116,25 @@ public class Spielstart extends CafeRoot{
 	    	  laenderkarten.add(new Laenderkarte(land));
 	    	  jListLaenderkartenModel.addElement(laenderkarten.get(q));
 	      }
-	      System.out.println("Ein altes Spiel wurde wiederhergestellt");
-	      System.out.println("Gastkarten: "+gastkarten);
-	      System.out.println("Tischkarten: "+laenderkarten);
+	      for(int x=0;x<5;x++) {
+	    	  String handkartenwiederhergestellt = spielstand.getProperty("kartenspieler1N" + x);
+	    	  String[] einzelkarte = handkartenwiederhergestellt.split(":");
+	    	  Geschlecht geschlecht = Geschlecht.valueOf(einzelkarte[1]);
+	    	  Land land = Land.valueOf(einzelkarte[0]);
+	    	  kartenspieler1.add(new Gastkarte(geschlecht, land));
+	      }
+	      for(int x=0;x<5;x++) {
+	    	  String handkartenwiederhergestellt = spielstand.getProperty("kartenspieler2N" + x);
+	    	  String[] einzelkarte = handkartenwiederhergestellt.split(":");
+	    	  Geschlecht geschlecht = Geschlecht.valueOf(einzelkarte[1]);
+	    	  Land land = Land.valueOf(einzelkarte[0]);
+	    	  kartenspieler2.add(new Gastkarte(geschlecht, land));
+	      }
+	      System.out.println("("+ausgabenummer+") "+"Ein altes Spiel wurde wiederhergestellt"); ausgabenummer += 1;
+	      System.out.println("("+ausgabenummer+") "+"Gastkarten: "+gastkarten); ausgabenummer += 1;
+	      System.out.println("("+ausgabenummer+") "+"Tischkarten: "+laenderkarten); ausgabenummer += 1;
+	      System.out.println("("+ausgabenummer+") "+"Handkarten von "+spielername1+": "+kartenspieler1); ausgabenummer += 1;
+		  System.out.println("("+ausgabenummer+") "+"Handkarten von "+spielername2+": "+kartenspieler2); ausgabenummer += 1;
 	  }
 	 public static void namensfrage() throws IOException {
 		  JTextField spielername01 = new JTextField(new MaxSizeDocument(12), "", 0);
@@ -128,12 +146,12 @@ public class Spielstart extends CafeRoot{
 	      spielername2 = spielername02.getText();
 	      if(spielername1.equals("") || spielername2.equals("")) {
 	    	  JOptionPane.showMessageDialog(null, "Bitte gib beide Spielernamen ein!", "Unvollständige Eingabe", JOptionPane.ERROR_MESSAGE);
-	    	  System.out.println("Es wurden nicht alle Spielernamen eingetragen");
+	    	  System.out.println("("+ausgabenummer+") "+"Es wurden nicht alle Spielernamen eingetragen"); ausgabenummer += 1;
 	    	  namensfrage(); 
 	  	  }
 	      else if(spielername1.equalsIgnoreCase(spielername2)) {
 	    	  JOptionPane.showMessageDialog(null, "Bitte benenne die Spieler unterschiedlich!", "Namensgleichheit", JOptionPane.ERROR_MESSAGE);
-	    	  System.out.println("Es wurde bei beiden Namen \""+spielername1+"\" eingetragen");
+	    	  System.out.println("("+ausgabenummer+") "+"Es wurde bei beiden Namen \""+spielername1+"\" eingetragen"); ausgabenummer += 1;
 	    	  namensfrage(); 
 	      }
 	      else{
@@ -176,8 +194,19 @@ public class Spielstart extends CafeRoot{
 		    for(int n=0;n<gastkarten.size();n++){
 		    	jListGastkartenModel.addElement(gastkarten.get(n));
 		    }
-		    System.out.println("Die Gastkarten wurden gemischt");
-		    System.out.println(gastkarten);
+		    System.out.println("("+ausgabenummer+") "+"Die Gastkarten wurden gemischt"); ausgabenummer += 1;
+		    System.out.println("("+ausgabenummer+") "+""+gastkarten); ausgabenummer += 1;
+		    for(int p=0;p<5;p++) {
+		    	kartenspieler1.add(gastkarten.get(p));
+		    	restkartengast -= 1;
+		    }
+		    for(int p=5;p<10;p++) {
+			    kartenspieler2.add(gastkarten.get(p));
+			    restkartengast -= 1;
+		    }
+		    jLabelRestkartenGast.setText("Restgäste: "+restkartengast);
+		    System.out.println("("+ausgabenummer+") "+"Handkarten von "+spielername1+": "+kartenspieler1); ausgabenummer += 1;
+		    System.out.println("("+ausgabenummer+") "+"Handkarten von "+spielername2+": "+kartenspieler2); ausgabenummer += 1;
 	  }
 	 public static void laenderkartenmischen() {
 		 for(int n=0;n<2;n++) {
@@ -193,8 +222,8 @@ public class Spielstart extends CafeRoot{
 		 for(int p=0;p<restkartentisch;p++) {
 			 jListLaenderkartenModel.addElement(laenderkarten.get(p));
 		 }
-		 System.out.println("Die Tischkarten wurden gemischt");
-		 System.out.println(laenderkarten);
+		 System.out.println("("+ausgabenummer+") "+"Die Tischkarten wurden gemischt"); ausgabenummer += 1;
+		 System.out.println("("+ausgabenummer+") "+""+laenderkarten); ausgabenummer += 1;
 	 }
 	 public static void neustart() throws IOException {
 		 final JFrame Neustart = new JFrame("Ein Frame zum Schließen");
@@ -207,10 +236,13 @@ public class Spielstart extends CafeRoot{
 	      JOptionPane.QUESTION_MESSAGE, 
 	      null, options, options[0]);
 	      if(neustart == 0) {
+	    	  ausgabenummer = 1;
 	    	  gastkarten.clear();
 	    	  jListGastkartenModel.clear();
 	    	  laenderkarten.clear();
 	    	  jListLaenderkartenModel.clear();
+	    	  kartenspieler1.clear();
+	    	  kartenspieler2.clear();
 	    	  neuesspielbutton = true;
 	    	  Spielstart.neuesspiel();
 	    	  neuesspielbutton = false;
@@ -244,14 +276,21 @@ public class Spielstart extends CafeRoot{
 	        spielstand.setProperty("spielername1",spielername1);
 	        spielstand.setProperty("spielername2",spielername2);
 	        spielstand.setProperty("spieler",spieler + "");
+	        spielstand.setProperty("ausgabenummer",ausgabenummer + "");
 	        for (int n=0;n<restkartengast; n++) {
 	            spielstand.setProperty("gastkarten" + n, gastkarten.get(n) + "");
 	        }
 	        for (int q=0;q<restkartentisch;q++) {
 	        	spielstand.setProperty("laenderkarten" + q, laenderkarten.get(q) + "");
 	        }
+	        for (int z=0;z<kartenspieler1.size();z++) {
+	        	spielstand.setProperty("kartenspieler1N" + z, kartenspieler1.get(z) + "");
+	        }
+	        for (int z=0;z<kartenspieler2.size();z++) {
+	        	spielstand.setProperty("kartenspieler2N" + z, kartenspieler2.get(z) + "");
+	        }
 	        spielstand.store(new FileWriter("spielstand.txt"),"Gespeichertes Spiel");
-	        System.out.println("Das Spiel wurde beendet und der Spielstand abgespeichert");
+	        System.out.println("("+ausgabenummer+") "+"Das Spiel wurde beendet und der Spielstand abgespeichert"); ausgabenummer += 1;
 	    } catch (IOException e) {
 	      e.printStackTrace();
 	    }
@@ -263,7 +302,7 @@ public class Spielstart extends CafeRoot{
 	        		spielangefangen = 0;
 	        		spielstand.setProperty("spielangefangen",spielangefangen + "");
 					spielstand.store(new FileWriter("spielstand.txt"),"Keine Speicherdatei");
-					System.out.println("Das Spiel wurde beendet, aber kein Spielstand gespeichert");
+					System.out.println("("+ausgabenummer+") "+"Das Spiel wurde beendet, aber kein Spielstand gespeichert"); ausgabenummer += 1;
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -278,7 +317,7 @@ public class Spielstart extends CafeRoot{
 	             prop.load(reader);
 	           }catch(FileNotFoundException ex){
 	              ex.printStackTrace();
-	              System.out.println("Die Datei " + filename + " existiert nicht!");
+	              System.out.println("("+ausgabenummer+") "+"Die Datei " + filename + " existiert nicht!"); ausgabenummer += 1;
 	           }
 	           reader.close();
 	           return prop;

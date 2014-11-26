@@ -20,11 +20,12 @@ import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
 /**
- * @version 1.6
+ * @version 1.6.1
  * Neuerungen in 1.6:
  * Neu erstellte Klassen: DosEingabe, Komponenten, Punkte, Spielende
  * Komponenten aus Übersichtlichkeit in Einzelklasse ausgelagert, Punkteberechnung hinzugefügt, DOS-Eingabe filtert einzelne Ereignisse heraus
  * Spielendszenarium Barplätze erstellt, Variablen Männlich und Türke umlautfrei gemacht, viele kleine Fehlerkorrekturen
+ * Neuerungen in 1.6.1: Korrektur von Fehlern bei Barplatzbelegung mit Handkarten der Spieler; Konsolenausgabe um Zeilennummer ergänzt
  * @author Lukas Schramm
  */
 
@@ -74,13 +75,15 @@ public class CafeRoot extends JFrame {
   protected static ArrayList<String> doseingabepart = new ArrayList<String>();
   protected static int barkartennummer = 0;
   protected static String information = "";
+  protected static List<Gastkarte> kartenspieler1 = new ArrayList<Gastkarte>();
+  protected static List<Gastkarte> kartenspieler2 = new ArrayList<Gastkarte>();
+  protected static int ausgabenummer = 1;
   // Ende Attribute
   
   public CafeRoot(String title) throws IOException {
     // Frame-Initialisierung
     super(title);
     setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-    //Properties neuesspiel = Spielstart.loadProperties("neuesspiel.txt");
     Properties spielstand = Spielstart.loadProperties("spielstand.txt");
     int frameWidth = 600;//506 
     int frameHeight = 600;//434
@@ -103,28 +106,21 @@ public class CafeRoot extends JFrame {
     int spielangefangen = Integer.parseInt(string_spielangefangen);
     if (Spielstart.isWindows()) {
         JOptionPane.showMessageDialog(null, "Dein System ist hoffnungslos veraltet!\nWindoof ist nicht kompatibel mit diesem Spiel.\nSollte es zu Problemen bei der Ausführung kommen,\ndann öffne das Spiel bitte auf einem PC\nmit Mac OS oder Linux!", "System veraltet", JOptionPane.WARNING_MESSAGE);
-        System.out.println("Ein veraltetes System \"Windows\" wurde entdeckt");
+        System.out.println("("+ausgabenummer+") "+"Ein veraltetes System \"Windows\" wurde entdeckt"); ausgabenummer += 1;
         }
     if(spielangefangen == 0) {
     	do{
     		Spielstart.namensfrage();
     	}while(spielernamenkorrekt == false);
-    	System.out.println("Spieler 1 heißt: "+spielername1);
-        System.out.println("Spieler 2 heißt: "+spielername2);
+    	System.out.println("("+ausgabenummer+") "+"Spieler 1 heißt: "+spielername1); ausgabenummer += 1;
+    	System.out.println("("+ausgabenummer+") "+"Spieler 2 heißt: "+spielername2); ausgabenummer += 1;
         Spielstart.neuesspiel();
         Spielstart.gastkartenmischen();
         Spielstart.laenderkartenmischen();
     }
     else{
     	Spielstart.spielstand();
-    }
-    /*if(restkartentisch > -1 && restkartengast > 0 && restbarplaetze > 0) {
-    	System.out.println("Das Spiel ist beendet!");
-    }
-    do{
-    	//
-    }while(restkartentisch > -1 && restkartengast > 0 && restbarplaetze > 0);*/
-    
+    }  
     
     // Ende Komponenten
     
@@ -180,7 +176,6 @@ public class CafeRoot extends JFrame {
     public void windowIconified(WindowEvent arg0) { }
     @Override
     public void windowOpened(WindowEvent arg0) { }
-    
-    
+
   }
 } // end of class CafeRoot
