@@ -6,6 +6,7 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
@@ -39,8 +40,6 @@ public class CafeRoot extends JFrame {
   protected static int restkartentisch = 0;
   protected static int restkartengast = 0;
   protected static int restbarplaetze = 0;
-  protected static int handkartenspieler1 = 0;
-  protected static int handkartenspieler2 = 0;
   protected static int punktespieler1 = 0;
   protected static int punktespieler2 = 0;
   protected static int spieler = 0;
@@ -54,8 +53,6 @@ public class CafeRoot extends JFrame {
   protected static JLabel jLabelRestkartenTisch = new JLabel();
   protected static JLabel jLabelRestkartenGast = new JLabel();
   protected static JLabel jLabelRestbarplaetze = new JLabel();
-  protected static JLabel jLabelHandkartenSpieler1 = new JLabel();
-  protected static JLabel jLabelHandkartenSpieler2 = new JLabel();
   protected static JLabel jLabelPunkteSpieler1 = new JLabel();
   protected static JLabel jLabelPunkteSpieler2 = new JLabel();
   protected static JLabel jLabelSpieler = new JLabel();
@@ -78,6 +75,7 @@ public class CafeRoot extends JFrame {
   protected static List<Gastkarte> kartenspieler1 = new ArrayList<Gastkarte>();
   protected static List<Gastkarte> kartenspieler2 = new ArrayList<Gastkarte>();
   protected static int ausgabenummer = 1;
+  protected static String filepath = new File("").getAbsolutePath();
   // Ende Attribute
   
   public CafeRoot(String title) throws IOException {

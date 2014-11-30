@@ -12,6 +12,7 @@ public class Punkte extends CafeRoot{
 	}
 	
 	public static void barkarten() throws IOException {
+		restkartengast -= 1;
 		barkartennummer -= 1;
 		restbarplaetze -= 1;
 		jLabelRestbarplaetze.setText("Barplätze übrig: "+restbarplaetze);
@@ -25,6 +26,7 @@ public class Punkte extends CafeRoot{
 			System.out.println("("+ausgabenummer+") "+"Es handelt sich um die Karte: "+kartenspieler2.get(barkartennummer)); ausgabenummer += 1;
 		}
 		punktebarkarten();
+		gastkarten.remove(0);
 	}
 	
 	public static void punktebarkarten() throws IOException {
@@ -96,21 +98,23 @@ public class Punkte extends CafeRoot{
 		}
 		if(spieler == 1) {
 			punktespieler1 += punkteaddition;
-			kartenspieler1.set(barkartennummer,gastkarten.get(100-restkartengast));
+			kartenspieler1.set(barkartennummer,gastkarten.get(0));
 			System.out.println("("+ausgabenummer+") "+spielername1+" hat nun diese Handkarten: "+kartenspieler1); ausgabenummer += 1;
 			spieler = 2;
 			jLabelSpieler.setText("Am Zug: "+spielername2);
 			System.out.println("("+ausgabenummer+") "+"Damit ist nun "+spielername2+" am Zug."); ausgabenummer += 1;
 		} else {
 			punktespieler2 += punkteaddition;
-			kartenspieler2.set(barkartennummer,gastkarten.get(100-restkartengast));
+			kartenspieler2.set(barkartennummer,gastkarten.get(0));
 			System.out.println("("+ausgabenummer+") "+spielername2+" hat nun diese Handkarten: "+kartenspieler2); ausgabenummer += 1;
 			spieler = 1;
 			jLabelSpieler.setText("Am Zug: "+spielername1);
 			System.out.println("("+ausgabenummer+") "+"Damit ist nun "+spielername1+" am Zug."); ausgabenummer += 1;
 		}
+		jListGastkartenModel.remove(0);
 		jLabelPunkteSpieler1.setText("Punkte "+spielername1+": "+punktespieler1);
 		jLabelPunkteSpieler2.setText("Punkte "+spielername2+": "+punktespieler2);
+		jLabelRestkartenGast.setText("Restgäste: "+restkartengast);
 		if(restbarplaetze == 0) {
 			System.out.println("("+ausgabenummer+") "+"Alle Barplätze sind belegt. Damit ist das Spiel beendet."); ausgabenummer += 1;
 			Spielende.spielendeabrechnung();

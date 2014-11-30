@@ -41,12 +41,6 @@ public class Spielstart extends CafeRoot{
 	      String string_restbarplaetze = neuesspiel.getProperty("restbarplaetze", "21");
 	      restbarplaetze = Integer.parseInt(string_restbarplaetze);
 	      jLabelRestbarplaetze.setText("Barplätze übrig: "+restbarplaetze); 
-	      String string_handkartenspieler1 = neuesspiel.getProperty("handkartenspieler1", "0");
-	      handkartenspieler1 = Integer.parseInt(string_handkartenspieler1);
-	      jLabelHandkartenSpieler1.setText("Karten "+spielername1+": "+handkartenspieler1);
-	      String string_handkartenspieler2 = neuesspiel.getProperty("handkartenspieler2", "0");
-	      handkartenspieler2 = Integer.parseInt(string_handkartenspieler2);
-	      jLabelHandkartenSpieler2.setText("Karten "+spielername2+": "+handkartenspieler2);
 	      String string_punktespieler1 = neuesspiel.getProperty("punktespieler1", "0");
 	      punktespieler1 = Integer.parseInt(string_punktespieler1);
 	      jLabelPunkteSpieler1.setText("Punkte "+spielername1+": "+punktespieler1);
@@ -80,12 +74,6 @@ public class Spielstart extends CafeRoot{
 	      String string_restbarplaetze = spielstand.getProperty("restbarplaetze", "21");
 	      restbarplaetze = Integer.parseInt(string_restbarplaetze);
 	      jLabelRestbarplaetze.setText("Barplätze übrig: "+restbarplaetze); 
-	      String string_handkartenspieler1 = spielstand.getProperty("handkartenspieler1", "0");
-	      handkartenspieler1 = Integer.parseInt(string_handkartenspieler1);
-	      jLabelHandkartenSpieler1.setText("Karten "+spielername1+": "+handkartenspieler1);
-	      String string_handkartenspieler2 = spielstand.getProperty("handkartenspieler2", "0");
-	      handkartenspieler2 = Integer.parseInt(string_handkartenspieler2);
-	      jLabelHandkartenSpieler2.setText("Karten "+spielername2+": "+handkartenspieler2);
 	      String string_punktespieler1 = spielstand.getProperty("punktespieler1", "0");
 	      punktespieler1 = Integer.parseInt(string_punktespieler1);
 	      jLabelPunkteSpieler1.setText("Punkte "+spielername1+": "+punktespieler1);
@@ -160,7 +148,7 @@ public class Spielstart extends CafeRoot{
 	    	  try {
 	        		spielstand.setProperty("spielername1",spielername1 + "");
 	        		spielstand.setProperty("spielername2",spielername2 + "");
-					spielstand.store(new FileWriter("spielstand.txt"),"Keine Speicherdatei");
+					spielstand.store(new FileWriter(filepath+"/spielstand/"+"spielstand.txt"),"Keine Speicherdatei");
 	    	  } catch (IOException e) {
 					e.printStackTrace();
 	    	  }
@@ -191,18 +179,20 @@ public class Spielstart extends CafeRoot{
 		    }*/
 		    jLabelRestkartenGast.setText("Restgäste: "+restkartengast);
 		    Collections.shuffle(gastkarten);
-		    for(int n=0;n<gastkarten.size();n++){
-		    	jListGastkartenModel.addElement(gastkarten.get(n));
-		    }
 		    System.out.println("("+ausgabenummer+") "+"Die Gastkarten wurden gemischt"); ausgabenummer += 1;
 		    System.out.println("("+ausgabenummer+") "+""+gastkarten); ausgabenummer += 1;
 		    for(int p=0;p<5;p++) {
-		    	kartenspieler1.add(gastkarten.get(p));
+		    	kartenspieler1.add(gastkarten.get(0));
+		    	gastkarten.remove(0);
 		    	restkartengast -= 1;
 		    }
-		    for(int p=5;p<10;p++) {
-			    kartenspieler2.add(gastkarten.get(p));
+		    for(int p=0;p<5;p++) {
+		    	kartenspieler2.add(gastkarten.get(0));
+		    	gastkarten.remove(0);
 			    restkartengast -= 1;
+		    }
+		    for(int n=0;n<gastkarten.size();n++){
+		    	jListGastkartenModel.addElement(gastkarten.get(n));
 		    }
 		    jLabelRestkartenGast.setText("Restgäste: "+restkartengast);
 		    System.out.println("("+ausgabenummer+") "+"Handkarten von "+spielername1+": "+kartenspieler1); ausgabenummer += 1;
@@ -269,8 +259,6 @@ public class Spielstart extends CafeRoot{
 	        spielstand.setProperty("restkartentisch",restkartentisch + "");
 	        spielstand.setProperty("restkartengast",restkartengast + "");
 	        spielstand.setProperty("restbarplaetze",restbarplaetze + "");
-	        spielstand.setProperty("handkartenspieler1",handkartenspieler1 + "");
-	        spielstand.setProperty("handkartenspieler2",handkartenspieler2 + "");
 	        spielstand.setProperty("punktespieler1",punktespieler1 + "");
 	        spielstand.setProperty("punktespieler2",punktespieler2 + "");
 	        spielstand.setProperty("spielername1",spielername1);
@@ -289,7 +277,7 @@ public class Spielstart extends CafeRoot{
 	        for (int z=0;z<kartenspieler2.size();z++) {
 	        	spielstand.setProperty("kartenspieler2N" + z, kartenspieler2.get(z) + "");
 	        }
-	        spielstand.store(new FileWriter("spielstand.txt"),"Gespeichertes Spiel");
+	        spielstand.store(new FileWriter(filepath+"/spielstand/"+"spielstand.txt"),"Gespeichertes Spiel");
 	        System.out.println("("+ausgabenummer+") "+"Das Spiel wurde beendet und der Spielstand abgespeichert"); ausgabenummer += 1;
 	    } catch (IOException e) {
 	      e.printStackTrace();
@@ -301,7 +289,7 @@ public class Spielstart extends CafeRoot{
 	        	try {
 	        		spielangefangen = 0;
 	        		spielstand.setProperty("spielangefangen",spielangefangen + "");
-					spielstand.store(new FileWriter("spielstand.txt"),"Keine Speicherdatei");
+					spielstand.store(new FileWriter(filepath+"/spielstand/"+"spielstand.txt"),"Keine Speicherdatei");
 					System.out.println("("+ausgabenummer+") "+"Das Spiel wurde beendet, aber kein Spielstand gespeichert"); ausgabenummer += 1;
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -311,16 +299,16 @@ public class Spielstart extends CafeRoot{
 	      }
 	 }
 	 public static Properties loadProperties(String filename) throws IOException{
-	        Reader reader = new BufferedReader(new FileReader(filename));
-	           Properties prop = new Properties();
-	           try {
-	             prop.load(reader);
-	           }catch(FileNotFoundException ex){
-	              ex.printStackTrace();
-	              System.out.println("("+ausgabenummer+") "+"Die Datei " + filename + " existiert nicht!"); ausgabenummer += 1;
-	           }
-	           reader.close();
-	           return prop;
+		 Reader reader = new BufferedReader(new FileReader(filepath+"/spielstand/"+filename));
+		 Properties prop = new Properties();
+		 try {
+			 prop.load(reader);
+		 }catch(FileNotFoundException ex){
+			ex.printStackTrace();
+		 	System.out.println("("+ausgabenummer+") "+"Die Datei " + filename + " existiert nicht!"); ausgabenummer += 1;
+		 }
+		 reader.close();
+		 return prop;
 	 }
 	 
 	 public static boolean isWindows() {
