@@ -15,6 +15,9 @@ import javax.swing.JTextField;
 
 import spiel.Gastkarte.Geschlecht;
 import spiel.Gastkarte.Land;
+import spiel.Laenderkarte;
+import spiel.Tisch;
+import spiel.Stuhl;
 
 public class Spielstart extends CafeRoot{
 	
@@ -207,6 +210,7 @@ public class Spielstart extends CafeRoot{
 				 }
 			 }
 		 }
+		 
 		 jLabelRestkartenTisch.setText("Resttische: "+restkartentisch);
 		 Collections.shuffle(laenderkarten);
 		 for(int p=0;p<restkartentisch;p++) {
@@ -215,6 +219,17 @@ public class Spielstart extends CafeRoot{
 		 System.out.println("("+ausgabenummer+") "+"Die Tischkarten wurden gemischt"); ausgabenummer += 1;
 		 System.out.println("("+ausgabenummer+") "+""+laenderkarten); ausgabenummer += 1;
 	 }
+	 public static void spielfeldgenerieren() {
+		 for(int n=0;n<12;n++) {
+			 tische.add(new Tisch(laenderkarten.get(n)));
+		 }
+		 for(int n=0;n<24;n++) {
+			 stuehle.add(new Stuhl(null));
+		 }
+		 System.out.println(stuehle);
+		 System.out.println(tische);
+	 }
+	 
 	 public static void neustart() throws IOException {
 		 final JFrame Neustart = new JFrame("Ein Frame zum Schließen");
 	      Neustart.setTitle("Spiel neustarten");

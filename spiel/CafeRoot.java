@@ -21,12 +21,14 @@ import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
 /**
- * @version 1.6.1
+ * @version 1.6.3
  * Neuerungen in 1.6:
  * Neu erstellte Klassen: DosEingabe, Komponenten, Punkte, Spielende
  * Komponenten aus Übersichtlichkeit in Einzelklasse ausgelagert, Punkteberechnung hinzugefügt, DOS-Eingabe filtert einzelne Ereignisse heraus
  * Spielendszenarium Barplätze erstellt, Variablen Männlich und Türke umlautfrei gemacht, viele kleine Fehlerkorrekturen
  * Neuerungen in 1.6.1: Korrektur von Fehlern bei Barplatzbelegung mit Handkarten der Spieler; Konsolenausgabe um Zeilennummer ergänzt
+ * Neuerungen in 1.6.2: Unnütze Elemente entfernt; Listenzählung verändert, benutzte Elemente werden sofort entfernt
+ * Neuerungen in 1.6.3: Vorbereitung der Stuhl- und Tischgenerierung
  * @author Lukas Schramm
  */
 
@@ -76,6 +78,8 @@ public class CafeRoot extends JFrame {
   protected static List<Gastkarte> kartenspieler2 = new ArrayList<Gastkarte>();
   protected static int ausgabenummer = 1;
   protected static String filepath = new File("").getAbsolutePath();
+  protected static List<Tisch> tische = new ArrayList<Tisch>();
+  protected static List<Stuhl> stuehle = new ArrayList<Stuhl>();
   // Ende Attribute
   
   public CafeRoot(String title) throws IOException {
@@ -115,11 +119,11 @@ public class CafeRoot extends JFrame {
         Spielstart.neuesspiel();
         Spielstart.gastkartenmischen();
         Spielstart.laenderkartenmischen();
+        Spielstart.spielfeldgenerieren();
     }
     else{
     	Spielstart.spielstand();
     }  
-    
     // Ende Komponenten
     
     setVisible(true);
