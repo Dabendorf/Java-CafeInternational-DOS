@@ -221,13 +221,33 @@ public class Spielstart extends CafeRoot{
 	 }
 	 public static void spielfeldgenerieren() {
 		 for(int n=0;n<12;n++) {
-			 tische.add(new Tisch(laenderkarten.get(n)));
+			 tische.add(new Tisch());
 		 }
 		 for(int n=0;n<24;n++) {
-			 stuehle.add(new Stuhl(null));
+			 stuehle.add(new Stuhl());
 		 }
-		 System.out.println(stuehle);
-		 System.out.println(tische);
+		 /*stuehle.add(new Stuhl(tische.get(11),tische.get(1),tische.get(2)));
+		 tische.add(new Tisch(stuehle.get(1),stuehle.get(3),stuehle.get(1)));
+		 tische.get(0).addStuhl(stuehle.get(11));
+		 tische.get(0).addStuhl(stuehle.get(12));
+		 tische.get(0).addStuhl(stuehle.get(13));
+		 tische.get(1).addStuhl(stuehle.get(1));
+		 tische.get(1).addStuhl(stuehle.get(2));
+		 tische.get(1).addStuhl(stuehle.get(12));
+		 tische.get(1).addStuhl(stuehle.get(13));
+		 tische.get(2).addStuhl(stuehle.get(2));
+		 tische.get(2).addStuhl(stuehle.get(3));
+		 tische.get(2).addStuhl(stuehle.get(13));
+		 tische.get(2).addStuhl(stuehle.get(14));
+		 tische.get(3).addStuhl(stuehle.get(3));
+		 tische.get(3).addStuhl(stuehle.get(4));
+		 tische.get(3).addStuhl(stuehle.get(5));
+		 tische.get(3).addStuhl(stuehle.get(14));
+		 //weitere Tische 4 bis 11
+		 stuehle.get(0).addToTisch(tische.get(0));
+		 stuehle.get(1).addToTisch(tische.get(1));
+		 //weitere Stuhlzuordnungen*/
+		 Konglomerat num1 = new Konglomerat(tische.get(3),stuehle.get(0));
 	 }
 	 
 	 public static void neustart() throws IOException {
