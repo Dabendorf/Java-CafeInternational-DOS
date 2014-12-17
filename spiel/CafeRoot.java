@@ -21,7 +21,7 @@ import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
 /**
- * @version 1.6.4
+ * @version 1.6.5
  * Neuerungen in 1.6:
  * Neu erstellte Klassen: DosEingabe, Komponenten, Punkte, Spielende
  * Komponenten aus Übersichtlichkeit in Einzelklasse ausgelagert, Punkteberechnung hinzugefügt, DOS-Eingabe filtert einzelne Ereignisse heraus
@@ -30,6 +30,7 @@ import javax.swing.WindowConstants;
  * Neuerungen in 1.6.2: Unnütze Elemente entfernt; Listenzählung verändert, benutzte Elemente werden sofort entfernt
  * Neuerungen in 1.6.3: Vorbereitung der Stuhl- und Tischgenerierung
  * Neuerungen in 1.6.4: Klasse Konglomerat hinzugefügt, ansonsten absolutes Chaos und kein Plan, wie irgendwas mal funktionieren soll
+ * Neuerungen in 1.6.5: Länderbezeichnungen gekürzt, Stuhl- und Tisch-Klasse neu gebaut, Zuordnung funktioniert nun, addGast auch in Grundzügen
  * @author Lukas Schramm
  */
 

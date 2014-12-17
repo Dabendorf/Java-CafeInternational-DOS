@@ -1,47 +1,30 @@
 package spiel;
 
 public class Stuhl {
-	   
-    private Gastkarte gast;
-    public Tisch tisch;
-   
-    //public Stuhl(/*Gastkarte gast*/) {
-    	//this.gast = gast;
-    //}
+
+	private Gastkarte gast;
+    public Tisch[] tische;
     
-    /*public Stuhl(Tisch... tische) {
-    	this.tisch=tische;
-    }*/
-    
-    /*public void addToTisch(Tisch tisch){
-        this.tisch = tisch;
-    }*/
-    
-	public Stuhl() {
-		
+    public String toString() {
+		return "Stuhl [gast=" + gast + ", tisch=" + tische + "]";
 	}
-    public void addToTisch(Tisch...tisch) {
-    	
-    }
     
-    //public String toString(){
-	 //    return gast + "";
-	//}
-   
-    /*public void addGast(Gastkarte gast){
-        if(this.gast == null){
+	public Gastkarte getGast() {
+		return gast;
+	}
+	public void setGast(Gastkarte gast) {
+		if(this.gast == null){
             this.gast = gast;
         } else {
             System.err.println("Der Stuhl ist bereits belegt!");
         }
-    }*/
-    
-    public void addGast(Gastkarte gast){
-        if(this.gast == null){
-            this.gast = gast;
-        } else {
-            System.err.println("Der Stuhl ist bereits belegt!");
-        }
-    }
- 
+	}
+	
+	public Tisch[] getTische() {
+		return tische;
+	}
+	public void setTische(Tisch...tische) {
+		this.tische = tische;
+	}
+
 }
