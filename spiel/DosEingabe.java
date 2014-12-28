@@ -34,8 +34,8 @@ public class DosEingabe extends CafeRoot{
 			break;
 		case "gastkartebar":
 			try{
-				information = doseingabepart.get(1);
-				barkartennummer = Integer.parseInt(information);
+				dosinfostring1 = doseingabepart.get(1);
+				dosinfo1 = Integer.parseInt(dosinfostring1);
 			}
 			catch(NumberFormatException e){
 				eingabeinkorrekt(5000); return;
@@ -43,8 +43,27 @@ public class DosEingabe extends CafeRoot{
 			catch(IndexOutOfBoundsException f){
 				eingabeinkorrekt(5000); return;
 			}
-			if(!(barkartennummer > 5 || barkartennummer < 1)) {
+			if(!(dosinfo1 > 5 || dosinfo1 < 1)) {
 				Punkte.barkarten();
+			}else{
+				eingabeinkorrekt(5000); return;
+			}
+			break;
+		case "gastkartestuhl":
+			try{
+				dosinfostring1 = doseingabepart.get(1);
+				dosinfo1 = Integer.parseInt(dosinfostring1);
+				dosinfostring2 = doseingabepart.get(2);
+				dosinfo2 = Integer.parseInt(dosinfostring2);
+			}
+			catch(NumberFormatException e){
+				eingabeinkorrekt(5000); return;
+			}
+			catch(IndexOutOfBoundsException f){
+				eingabeinkorrekt(5000); return;
+			}
+			if(!(dosinfo1 > 5 || dosinfo1 < 1) && (!(dosinfo2 > 24 || dosinfo2 < 1))) {
+				Punkte.gastkartestuhl();
 			}else{
 				eingabeinkorrekt(5000); return;
 			}

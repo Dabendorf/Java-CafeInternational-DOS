@@ -11,19 +11,32 @@ public class Punkte extends CafeRoot{
 		super(spielname);
 	}
 	
+	public static void gastkartestuhl() {
+		dosinfo1 -= 1;
+		dosinfo2 -= 1;
+		if(spieler == 1) {
+			stuehle.get(dosinfo2).setGast(kartenspieler1.get(dosinfo1));
+		} else {
+			stuehle.get(dosinfo2).setGast(kartenspieler2.get(dosinfo1));
+		}
+	}
+	
+	public static void punktegastkartestuhl() {
+		
+	}
 	public static void barkarten() throws IOException {
 		restkartengast -= 1;
-		barkartennummer -= 1;
+		dosinfo1 -= 1;
 		restbarplaetze -= 1;
 		jLabelRestbarplaetze.setText("Barplätze übrig: "+restbarplaetze);
 		if(spieler == 1) {
-			jListBarkartenModel.addElement(kartenspieler1.get(barkartennummer));
+			jListBarkartenModel.addElement(kartenspieler1.get(dosinfo1));
 			System.out.println("("+ausgabenummer+") "+spielername1+" hat eine Karte in die Bar gelegt."); ausgabenummer += 1;
-			System.out.println("("+ausgabenummer+") "+"Es handelt sich um die Karte: "+kartenspieler1.get(barkartennummer)); ausgabenummer += 1;
+			System.out.println("("+ausgabenummer+") "+"Es handelt sich um die Karte: "+kartenspieler1.get(dosinfo1)); ausgabenummer += 1;
 		} else {
-			jListBarkartenModel.addElement(kartenspieler2.get(barkartennummer));
+			jListBarkartenModel.addElement(kartenspieler2.get(dosinfo1));
 			System.out.println("("+ausgabenummer+") "+spielername2+" hat eine Karte in die Bar gelegt."); ausgabenummer += 1;
-			System.out.println("("+ausgabenummer+") "+"Es handelt sich um die Karte: "+kartenspieler2.get(barkartennummer)); ausgabenummer += 1;
+			System.out.println("("+ausgabenummer+") "+"Es handelt sich um die Karte: "+kartenspieler2.get(dosinfo1)); ausgabenummer += 1;
 		}
 		punktebarkarten();
 		gastkarten.remove(0);
@@ -98,14 +111,14 @@ public class Punkte extends CafeRoot{
 		}
 		if(spieler == 1) {
 			punktespieler1 += punkteaddition;
-			kartenspieler1.set(barkartennummer,gastkarten.get(0));
+			kartenspieler1.set(dosinfo1,gastkarten.get(0));
 			System.out.println("("+ausgabenummer+") "+spielername1+" hat nun diese Handkarten: "+kartenspieler1); ausgabenummer += 1;
 			spieler = 2;
 			jLabelSpieler.setText("Am Zug: "+spielername2);
 			System.out.println("("+ausgabenummer+") "+"Damit ist nun "+spielername2+" am Zug."); ausgabenummer += 1;
 		} else {
 			punktespieler2 += punkteaddition;
-			kartenspieler2.set(barkartennummer,gastkarten.get(0));
+			kartenspieler2.set(dosinfo1,gastkarten.get(0));
 			System.out.println("("+ausgabenummer+") "+spielername2+" hat nun diese Handkarten: "+kartenspieler2); ausgabenummer += 1;
 			spieler = 1;
 			jLabelSpieler.setText("Am Zug: "+spielername1);

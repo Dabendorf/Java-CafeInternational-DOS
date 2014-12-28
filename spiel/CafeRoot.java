@@ -21,7 +21,7 @@ import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
 /**
- * @version 1.6.5
+ * @version 1.6.6
  * Neuerungen in 1.6:
  * Neu erstellte Klassen: DosEingabe, Komponenten, Punkte, Spielende
  * Komponenten aus Übersichtlichkeit in Einzelklasse ausgelagert, Punkteberechnung hinzugefügt, DOS-Eingabe filtert einzelne Ereignisse heraus
@@ -31,6 +31,7 @@ import javax.swing.WindowConstants;
  * Neuerungen in 1.6.3: Vorbereitung der Stuhl- und Tischgenerierung
  * Neuerungen in 1.6.4: Klasse Konglomerat hinzugefügt, ansonsten absolutes Chaos und kein Plan, wie irgendwas mal funktionieren soll
  * Neuerungen in 1.6.5: Länderbezeichnungen gekürzt, Stuhl- und Tisch-Klasse neu gebaut, Zuordnung funktioniert nun, addGast auch in Grundzügen
+ * Neuerungen in 1.6.6: Klasse Stuhl vollendet; vollständige Überprüfung auf Land, Geschlecht, Joker, etc. || Probe und Einbau in DOS-Eingabe folgen
  * @author Lukas Schramm
  */
 
@@ -74,8 +75,10 @@ public class CafeRoot extends JFrame {
   protected static String doseingabe = "";
   protected static boolean doseingabeerfolgt = false;
   protected static ArrayList<String> doseingabepart = new ArrayList<String>();
-  protected static int barkartennummer = 0;
-  protected static String information = "";
+  protected static String dosinfostring1 = new String();
+  protected static String dosinfostring2 = new String();
+  protected static int dosinfo1 = 0;
+  protected static int dosinfo2 = 0;
   protected static List<Gastkarte> kartenspieler1 = new ArrayList<Gastkarte>();
   protected static List<Gastkarte> kartenspieler2 = new ArrayList<Gastkarte>();
   protected static int ausgabenummer = 1;

@@ -2,8 +2,8 @@ package spiel;
 
 public class Tisch {
 	
-	public Laenderkarte land;
-    public Stuhl[] stuhl;
+	private Laenderkarte land;
+    private Stuhl[] stuhl;
     
     public String toString() {
 		return "Tisch [land=" + land + ", stuhl=" + stuhl + "]";
