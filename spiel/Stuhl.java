@@ -7,6 +7,7 @@ public class Stuhl {
 
 	private Gastkarte gast;
     private Tisch[] tische;
+	@SuppressWarnings("unused")
 	private boolean bosetgastland = false;
     private boolean bosetgastgeschlecht = false;
     public boolean gastistjoker = false;

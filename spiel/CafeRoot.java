@@ -21,7 +21,7 @@ import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
 /**
- * @version 1.6.6
+ * @version 1.6.7
  * Neuerungen in 1.6:
  * Neu erstellte Klassen: DosEingabe, Komponenten, Punkte, Spielende
  * Komponenten aus Übersichtlichkeit in Einzelklasse ausgelagert, Punkteberechnung hinzugefügt, DOS-Eingabe filtert einzelne Ereignisse heraus
