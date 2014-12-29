@@ -31,7 +31,8 @@ import javax.swing.WindowConstants;
  * Neuerungen in 1.6.3: Vorbereitung der Stuhl- und Tischgenerierung
  * Neuerungen in 1.6.4: Klasse Konglomerat hinzugefügt, ansonsten absolutes Chaos und kein Plan, wie irgendwas mal funktionieren soll
  * Neuerungen in 1.6.5: Länderbezeichnungen gekürzt, Stuhl- und Tisch-Klasse neu gebaut, Zuordnung funktioniert nun, addGast auch in Grundzügen
- * Neuerungen in 1.6.6: Klasse Stuhl vollendet; vollständige Überprüfung auf Land, Geschlecht, Joker, etc. || Probe und Einbau in DOS-Eingabe folgen
+ * Neuerungen in 1.6.6: Klasse Stuhl vollendet; vollständige Überprüfung auf Land, Geschlecht, Joker, etc. || Probe und Einbau in DOS-Eingabe folgen; außerdem Aufräumerei in DOSeingabe und Punkte
+ * Neuerungen in 1.6.7: Kleine Fehlerkorrekturen; Projekt beendet und Beginn der Grafikvariante eingeleitet
  * @author Lukas Schramm
  */
 
@@ -102,7 +103,7 @@ public class CafeRoot extends JFrame {
     setResizable(false);
     Container cp = getContentPane();
     setTitle(spielname);
-    setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+    setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
     setLocationRelativeTo(null);
     cp.setLayout(null);
     

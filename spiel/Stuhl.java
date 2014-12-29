@@ -7,7 +7,7 @@ public class Stuhl {
 
 	private Gastkarte gast;
     private Tisch[] tische;
-    private boolean bosetgastland = false;
+	private boolean bosetgastland = false;
     private boolean bosetgastgeschlecht = false;
     public boolean gastistjoker = false;
     public int maenner = 0;
@@ -24,7 +24,7 @@ public class Stuhl {
 	public void setGast(Gastkarte newgast) {
 		if(this.gast == null || this.gast.land == Land.JOKER){
 			for(Tisch t:this.getTische()) {
-				if(t.getLand().land.equals(newgast.land)) {
+				if(t.getLand().land.equals(newgast.land) || newgast.land == Land.JOKER) {
 					bosetgastland = true;
 				}
 			}
@@ -44,6 +44,8 @@ public class Stuhl {
 						if(maenner > frauen) {
 							bosetgastgeschlecht = false;
 						}
+						maenner = 0;
+						frauen = 0;
 					}
 				} else {
 					for(Tisch t2:this.getTische()) {
@@ -59,6 +61,8 @@ public class Stuhl {
 						if(maenner < frauen) {
 							bosetgastgeschlecht = false;
 						}
+						maenner = 0;
+						frauen = 0;
 					}
 				}
 				
