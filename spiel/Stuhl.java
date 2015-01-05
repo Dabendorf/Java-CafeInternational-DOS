@@ -7,7 +7,6 @@ public class Stuhl {
 
 	private Gastkarte gast;
     private Tisch[] tische;
-	@SuppressWarnings("unused")
 	private boolean bosetgastland = false;
     private boolean bosetgastgeschlecht = false;
     public boolean gastistjoker = false;
@@ -29,7 +28,7 @@ public class Stuhl {
 					bosetgastland = true;
 				}
 			}
-			if(bosetgastland = true) {
+			if(bosetgastland == true) {
 				bosetgastgeschlecht = true;
 				if(newgast.geschlecht == Geschlecht.Mann) {
 					for(Tisch t2:this.getTische()) {
